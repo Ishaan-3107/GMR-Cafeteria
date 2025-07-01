@@ -1,0 +1,30 @@
+.search-container {
+  position: relative;
+  display: inline-block;
+  width: 20rem;
+}
+
+.searchbox {
+  width: 100%;
+  padding: 10px 12px 10px 36px;
+  border-radius: 6px;
+  border: 2px solid #ccc;
+  font-size: 16px;
+  outline: none;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  margin-left: 1.3rem;
+}
+
+.searchbox:focus {
+  border-color: #2684FF;
+  box-shadow: 0 0 5px #2684FF;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 32px;
+  transform: translateY(-50%);
+  color: #888;
+  font-size: 16px;
+}

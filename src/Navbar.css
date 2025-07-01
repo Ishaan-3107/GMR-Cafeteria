@@ -1,0 +1,51 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fc9106;
+  height: 7rem;
+  padding: 0 2rem;
+}
+
+.navbar-left,
+.navbar-center,
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-center {
+    margin-left: 100px;
+}
+
+.navbar-right {
+  gap: 1rem; /* spacing between Sign Up and Log In */
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+}
+
+.logo-link img {
+  width: 8rem;
+  height: 3rem;
+  transition: scale 0.1s ease-in;
+}
+
+.logo-link img:hover {
+  scale: 1.06;
+}
+
+.nav-link {
+  display: inline-block;
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+  transition: transform 0.1s ease-in-out;
+}
+
+.nav-link:hover {
+  transform: scale(1.08);
+}
+
