@@ -16,8 +16,8 @@
 }
 
 .searchbox:focus {
-  border-color: #2684FF;
-  box-shadow: 0 0 5px #2684FF;
+  border-color: #fc9106;
+  box-shadow: 0 0 3px #fc9106;
 }
 
 .search-icon {

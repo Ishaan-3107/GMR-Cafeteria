@@ -8,7 +8,7 @@ export default function Navbar({city, setCity}) {
         <div className="navbar">
             <div className="navbar-left">
                 <a href="/" className="logo-link">
-                    <img src="/gmr-group.png" alt="GMR Logo" className="logo" />
+                    <img src="/images/gmr-cafeterias-logo.png" alt="GMR Logo" className="logo" />
                 </a>
             </div>
 
@@ -18,8 +18,8 @@ export default function Navbar({city, setCity}) {
 
             <div className="navbar-right">
                 <Location city={city} setCity={setCity} />
-                <Link to="/signup" className="nav-link">Sign Up</Link>
-                <Link to="/login" className="nav-link">Log In</Link>
+                <Link to="/signup" className="nav-link signup">Sign Up</Link>
+                <Link to="/login" className="nav-link login">Log In</Link>
             </div>
 
         </div>

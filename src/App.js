@@ -6,28 +6,41 @@ import Signup from './Signup';
 import Home from './Home';
 import Footer from './Footer';
 import CafeCardList from './CafeCardList';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function App() {
-  const [city, setCity] = useState("Delhi");
+  const [city, setCity] = useState(() => {
+    // Get city from localStorage or default to "Delhi"
+    return localStorage.getItem("selectedCity") || "Delhi";
+  });
+
+  useEffect(() => {
+    // Update localStorage whenever city changes
+    localStorage.setItem("selectedCity", city);
+  }, [city]);
 
   return (
-    <Router>
-
-      <Navbar city={city} setCity={setCity} />
-      <Routes>
-        <Route path="/" element={
-          <>
-            <Home city={city}/>
-            <CafeCardList />
-          </>} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-      </Routes>
-      <Footer />
-
-    </Router>
-
+    <div className="app-container">
+      <Router>
+        <Navbar city={city} setCity={setCity} />
+        <div className="content">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <Home city={city} />
+                  <CafeCardList city={city} />
+                </>
+              }
+            />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+          </Routes>
+        </div>
+        <Footer />
+      </Router>
+    </div>
   );
 }
 
