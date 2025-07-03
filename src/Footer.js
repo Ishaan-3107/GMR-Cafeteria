@@ -52,7 +52,7 @@ export default function Footer() {
       <Divider sx={{ borderColor: '#000', marginY: '1rem' }} />
 
       <Typography variant="body2" align="center">
-        © {new Date().getFullYear()} GMR Cafeteria. All rights reserved.
+        &copy; {new Date().getFullYear()} GMR Cafeteria. All rights reserved.
       </Typography>
     </Box>
   );

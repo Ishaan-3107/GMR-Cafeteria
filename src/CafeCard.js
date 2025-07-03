@@ -7,15 +7,25 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
 import Rating from "@mui/material/Rating";
+import { FaStar } from "react-icons/fa";
 
-export default function CafeCard({ image, title, description, rating }) {
+export default function CafeCard({
+  image,
+  title,
+  description,
+  rating,
+  cafeteriaId,
+}) {
   return (
+    <Link to={`/cafeteria/${cafeteriaId}`} style={{ textDecoration: "none" }}>
     <Card
       sx={{
-        maxWidth: 500,
-        height: 470,
+        maxWidth: 400,
+        height: 420,
         overflow: "hidden",
-        marginLeft: "2%",
+        padding: "0.6rem",
+        margin: "2%",
+        borderRadius: "30px",
         transition: "box-shadow 0.3s ease, transform 0.3s ease",
         "&:hover": {
           boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.2)",
@@ -23,46 +33,59 @@ export default function CafeCard({ image, title, description, rating }) {
         },
       }}
     >
-      <Link
-        to={`/cafeteria/${title.toLowerCase().replace(/\s+/g, "-")}`}
-        style={{ textDecoration: "none" }}
-      >
-        <Box sx={{ overflow: "hidden" }}>
+      
+        <Box
+          sx={{
+            overflow: "hidden",
+            borderRadius: "20px",
+            height: "250px",
+          }}
+        >
           <CardMedia
             component="img"
-            height="270"
             image={image}
             alt={title}
             sx={{
               transition: "transform 0.3s ease",
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
               "&:hover": {
-                transform: "scale(1.1)",
+                transform: "scale(1.07)",
               },
             }}
           />
         </Box>
-      </Link>
+      
+
       <CardContent sx={{ textAlign: "center" }}>
         <Typography gutterBottom variant="h5" component="div">
           {title}
         </Typography>
 
-        <Box sx={{ display: "flex", justifyContent: "center", mb: 1 }}>
+        {/* <Box sx={{ display: "flex", justifyContent: "center", mb: 1 }}>
           <Rating value={rating} readOnly precision={0.5} />
-        </Box>
+        </Box> */}
 
-        <Typography variant="body2" sx={{ color: "text.secondary" }}>
+        <Typography variant="body" color="#fc9106">
+          {rating} <FaStar style={{ position: "relative", top: "1.8px" }} />
+        </Typography>
+
+        <Typography
+          variant="body2"
+          sx={{ color: "text.secondary", marginTop: "0.7rem" }}
+        >
           {description}
         </Typography>
       </CardContent>
 
       <div
         className="explore-btn-container"
-        style={{ display: "flex", justifyContent: "center", marginTop: "none" }}
+        style={{ display: "flex", justifyContent: "center" }}
       >
-        <CardActions>
+        {/* <CardActions>
           <Link
-            to={`/cafeteria/${title.toLowerCase().replace(/\s+/g, "-")}`}
+            to={`/cafeteria/${cafeteriaId}`}
             style={{ textDecoration: "none" }}
           >
             <Button
@@ -77,8 +100,9 @@ export default function CafeCard({ image, title, description, rating }) {
               Explore
             </Button>
           </Link>
-        </CardActions>
+        </CardActions> */}
       </div>
     </Card>
+    </Link>
   );
 }

@@ -1,4 +1,5 @@
 import Select from "react-select";
+import { useNavigate } from 'react-router-dom';
 
 export default function Location({ city, setCity }) {
   const cityOptions = [
@@ -11,12 +12,15 @@ export default function Location({ city, setCity }) {
     { value: "pune", label: "Pune" },
   ];
 
+  const navigate = useNavigate();
+
   const selectedOption = cityOptions.find(
     (option) => option.label.toLowerCase() === city.toLowerCase()
   );
 
   const handleChange = (selectedOption) => {
-    setCity(selectedOption.label); // This updates the city in App.js
+    setCity(selectedOption.label);
+    navigate('/');
   };
 
   return (
@@ -35,7 +39,7 @@ export default function Location({ city, setCity }) {
         styles={{
           control: (provided, state) => ({
             ...provided,
-            borderColor: state.isFocused ? "#fc9106" : "#ccc", // Orange on focus, default otherwise
+            borderColor: state.isFocused ? "#fc9106" : "#ccc",
             boxShadow: state.isFocused ? "0 0 0 1px #fc9106" : "none",
             "&:hover": {
               borderColor: "#fc9106",

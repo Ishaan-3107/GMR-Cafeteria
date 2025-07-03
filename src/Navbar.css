@@ -2,8 +2,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* background-color: #FF5200; */
-  background-color: white;
   border-bottom: 1px solid rgb(212, 212, 212);
   height: 7rem;
   padding: 0 2rem;
@@ -17,11 +15,11 @@
 }
 
 .navbar-center {
-    margin-left: 100px;
+    margin-left: 140px;
 }
 
 .navbar-right {
-  gap: 1rem; /* spacing between Sign Up and Log In */
+  gap: 1rem;
 }
 
 .logo-link {

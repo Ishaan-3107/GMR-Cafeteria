@@ -8,6 +8,10 @@ html, body, #root {
   padding: 0;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 .app-container {
   display: flex;
   flex-direction: column;
@@ -42,4 +46,10 @@ html, body, #root {
 .App-link {
   color: #61dafb;
 }
+
+::selection {
+  background: #fc9106;
+  color: white; /* or black depending on your text contrast */
+}
+
 
