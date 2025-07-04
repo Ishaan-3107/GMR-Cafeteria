@@ -1,5 +1,5 @@
 import Select from "react-select";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 export default function Location({ city, setCity }) {
   const cityOptions = [
@@ -20,7 +20,7 @@ export default function Location({ city, setCity }) {
 
   const handleChange = (selectedOption) => {
     setCity(selectedOption.label);
-    navigate('/');
+    navigate("/");
   };
 
   return (
@@ -30,32 +30,40 @@ export default function Location({ city, setCity }) {
       >
         Location:
       </label>
-      <Select
-        options={cityOptions}
-        value={selectedOption}
-        onChange={handleChange}
-        placeholder="Select a city"
-        isSearchable
-        styles={{
-          control: (provided, state) => ({
-            ...provided,
-            borderColor: state.isFocused ? "#fc9106" : "#ccc",
-            boxShadow: state.isFocused ? "0 0 0 1px #fc9106" : "none",
-            "&:hover": {
-              borderColor: "#fc9106",
-            },
-          }),
-          option: (provided, state) => ({
-            ...provided,
-            backgroundColor: state.isSelected
-              ? "#fc9106"
-              : state.isFocused
-              ? "#ffe3c2"
-              : "white",
-            color: "black",
-          }),
-        }}
-      />
+
+<Select
+  options={cityOptions}
+  value={selectedOption}
+  onChange={handleChange}
+  placeholder="Select a city"
+  isSearchable
+  menuPortalTarget={document.body}
+  menuPosition="fixed"
+  styles={{
+    control: (provided, state) => ({
+      ...provided,
+      borderColor: state.isFocused ? "#fc9106" : "#ccc",
+      boxShadow: state.isFocused ? "0 0 0 1px #fc9106" : "none",
+      "&:hover": {
+        borderColor: "#fc9106",
+      },
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected
+        ? "#fc9106"
+        : state.isFocused
+        ? "#ffe3c2"
+        : "white",
+      color: "black",
+    }),
+    menuPortal: base => ({
+      ...base,
+      zIndex: 2000,
+    }),
+  }}
+/>
+
     </div>
   );
 }
