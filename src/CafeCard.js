@@ -1,12 +1,9 @@
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
-import Rating from "@mui/material/Rating";
 import { FaStar } from "react-icons/fa";
 
 export default function CafeCard({
@@ -63,10 +60,6 @@ export default function CafeCard({
           {title}
         </Typography>
 
-        {/* <Box sx={{ display: "flex", justifyContent: "center", mb: 1 }}>
-          <Rating value={rating} readOnly precision={0.5} />
-        </Box> */}
-
         <Typography variant="body" color="#fc9106">
           {rating} <FaStar style={{ position: "relative", top: "1.8px" }} />
         </Typography>
@@ -83,24 +76,7 @@ export default function CafeCard({
         className="explore-btn-container"
         style={{ display: "flex", justifyContent: "center" }}
       >
-        {/* <CardActions>
-          <Link
-            to={`/cafeteria/${cafeteriaId}`}
-            style={{ textDecoration: "none" }}
-          >
-            <Button
-              size="large"
-              sx={{
-                color: "#fc9106",
-                "&:hover": {
-                  color: "#c87000",
-                },
-              }}
-            >
-              Explore
-            </Button>
-          </Link>
-        </CardActions> */}
+        
       </div>
     </Card>
     </Link>

@@ -72,7 +72,7 @@ export default function Signup() {
   };
 
   return (
-    <Box sx={{ maxWidth: 400, mx: "auto", mt: 5, px: 2 }}>
+    <Box sx={{ maxWidth: 400, mx: "auto", mt: 5, px: 2, textAlign: "center"}}>
       <form onSubmit={handleSubmit}>
         <Typography variant="h5" gutterBottom>
           Create an Account
@@ -125,7 +125,7 @@ export default function Signup() {
           type="submit"
           variant="contained"
           color="primary"
-          fullWidth
+          width="77px"
           sx={{ mt: 2 }}
         >
           Submit

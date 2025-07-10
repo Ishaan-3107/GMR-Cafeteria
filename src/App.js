@@ -6,7 +6,8 @@ import Signup from "./Signup";
 import Home from "./Home";
 import Footer from "./Footer";
 import CafeCardList from "./CafeCardList";
-import VendorList from "./VendorList";
+// import VendorList from "./VendorList";
+import CafeteriaMenu from "./CafeteriaMenu";
 import { useState, useEffect } from "react";
 import OfferBanner from "./OfferBanner";
 
@@ -37,7 +38,7 @@ function App() {
                 </>
               }
             />
-            <Route path="/cafeteria/:cafeteriaId" element={<VendorList />} />
+            <Route path="/cafeteria/:id" element={<CafeteriaMenu />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
           </Routes>

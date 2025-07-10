@@ -36,7 +36,12 @@ export default function CafeCardList({ city }) {
   }
 
   return (
-    <Box sx={{ px: "10rem", py: "1rem" }}>
+    <Box
+      sx={{
+        px: { xs: "1rem", sm: "2rem", md: "4rem", lg: "6rem", xl: "10rem" },
+        py: "1.5rem",
+      }}
+    >
       <Box
         sx={{
           display: "grid",
@@ -82,13 +87,15 @@ export default function CafeCardList({ city }) {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
               >
-                <CafeCard
-                  image={cafe.image_url}
-                  title={cafe.name}
-                  description={cafe.description}
-                  rating={parseFloat(cafe.rating)}
-                  cafeteriaId={cafe.id}
-                />
+                <Box sx={{ maxWidth: "360px", width: "100%", mx: "auto" }}>
+                  <CafeCard
+                    image={cafe.image_url}
+                    title={cafe.name}
+                    description={cafe.description}
+                    rating={parseFloat(cafe.rating)}
+                    cafeteriaId={cafe.id}
+                  />
+                </Box>
               </motion.div>
             ))
           )}
