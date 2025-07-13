@@ -11,9 +11,10 @@ export default function OfferBanner() {
     <Box
       sx={{
         width: "100%",
-        bgcolor: "linear-gradient(90deg, #ff6f61, #ffcc00)",
-        background: "linear-gradient(90deg, #FF6F61 0%, #FFC107 100%)",
-        color: "white",
+        background: "linear-gradient(270deg, #FF6F61, #FFC107, #FF6F61)",
+        backgroundSize: "600% 600%",
+        animation: "gradientAnimation 8s ease infinite",
+        color: "black",
         py: 1.5,
         px: 3,
         display: "flex",
@@ -21,6 +22,17 @@ export default function OfferBanner() {
         alignItems: "center",
         position: "relative",
         zIndex: 1000,
+        "@keyframes gradientAnimation": {
+          "0%": {
+            backgroundPosition: "0% 50%",
+          },
+          "50%": {
+            backgroundPosition: "100% 50%",
+          },
+          "100%": {
+            backgroundPosition: "0% 50%",
+          },
+        },
       }}
     >
       <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
@@ -29,7 +41,7 @@ export default function OfferBanner() {
       <IconButton
         onClick={() => setVisible(false)}
         sx={{
-          color: "white",
+          color: "black",
           "&:hover": { color: "#333" },
         }}
       >

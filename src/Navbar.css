@@ -1,12 +1,13 @@
+/* Base styles (mobile-first) */
 .navbar {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.5rem;
-  height: auto;
+  flex-direction: column; /* Stack items vertically by default */
+  align-items: center; /* Center items horizontally by default */
+  padding: 1rem; /* Smaller padding for mobile */
+  min-height: 5rem; /* Use min-height instead of fixed height */
   background-color: white;
   border-bottom: 1px solid #d4d4d4;
+  gap: 1rem; /* Gap between sections */
 }
 
 /* Navbar Sections */
@@ -15,28 +16,14 @@
 .navbar-right {
   display: flex;
   align-items: center;
-  margin-bottom: 0.75rem;
+  width: 100%; /* Full width for all sections on mobile */
+  justify-content: flex-start; /* Center content within sections */
 }
 
-/* Center: typically for nav links */
-.navbar-center {
-  justify-content: center;
-  flex: 1;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-left: 0;
-}
-
-/* Right: login/signup/profile */
-.navbar-right {
-  justify-content: flex-end;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
 
 /* Logo */
 .logo-link img {
-  width: 6rem;
+  width: 5rem; /* Smaller logo for mobile */
   height: auto;
   transition: transform 0.2s ease-in-out;
 }
@@ -49,8 +36,10 @@
   text-decoration: none;
   color: black;
   font-weight: 550;
-  font-size: 1rem;
+  font-size: 0.9rem; /* Smaller font size for mobile */
   transition: color 0.2s ease-in;
+  padding: 0.4rem 0.8rem; /* Add padding for better touch targets */
+  border-radius: 8px; /* Consistent border-radius */
 }
 .login:hover {
   color: #fc9106;
@@ -59,12 +48,9 @@
 /* Signup Button */
 .signup {
   border: 1px solid rgba(21, 21, 21, 0.3);
-  border-radius: 8px;
-  max-width: 100px;
-  padding: 0.5rem 1rem;
-  transition: background-color 0.2s ease;
   background-color: white;
   font-weight: 500;
+  text-align: center; /* Center text for full-width buttons */
 }
 .signup:hover {
   background-color: #fc9106;
@@ -74,6 +60,7 @@
 
 /* User Profile */
 .user-profile {
+  position: relative; /* For dropdown positioning */
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -95,6 +82,7 @@
   font-weight: 500;
   color: #333;
   font-size: 14px;
+  display: none; /* Hidden by default on mobile */
 }
 .dropdown-arrow {
   font-size: 12px;
@@ -109,13 +97,16 @@
 .profile-dropdown {
   position: absolute;
   top: 100%;
-  right: 0;
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Adjust for centering */
   background: white;
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   min-width: 150px;
-  z-index: 1000;
+  width: calc(100% - 2rem); /* Take full width minus padding on small screens */
+  max-width: 200px; /* Max width for dropdown */
+  z-index: 2000;
   margin-top: 8px;
 }
 .dropdown-item {
@@ -139,54 +130,106 @@
   background-color: #fee;
 }
 
-/* Responsive Breakpoints */
-@media (max-width: 768px) {
+/* Medium screens (e.g., tablets) */
+@media (min-width: 481px) and (max-width: 768px) {
   .navbar {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row; /* Back to row for medium screens */
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    height: auto; /* Let height adjust */
+    gap: 0.75rem; /* Smaller gap */
   }
 
   .navbar-left,
   .navbar-center,
   .navbar-right {
-    width: 100%;
+    width: auto; /* Let content determine width */
+    margin-bottom: 0; /* Remove margin-bottom */
+  }
+
+  .navbar-center {
+    flex: 1; /* Allow center to grow */
     justify-content: center;
-    margin-bottom: 0.75rem;
+  }
+
+  .navbar-right {
+    justify-content: flex-end;
   }
 
   .logo-link img {
-    width: 5rem;
-  }
-
-  .signup,
-  .login,
-  .user-profile {
-    font-size: 14px;
-    padding: 0.4rem 0.8rem;
-  }
-
-  .nav-link {
-    font-size: 15px;
+    width: 6rem; /* Slightly larger logo */
   }
 
   .user-name {
-    display: none;
-  }
-}
-
-@media (max-width: 480px) {
-  .navbar-center {
-    flex-direction: column;
-    gap: 0.5rem;
+    display: inline; /* Show user name */
   }
 
   .nav-link {
-    font-size: 14px;
+    font-size: 1rem; /* Default font size */
   }
 
   .signup,
   .login {
-    width: 100%;
-    text-align: center;
+    width: auto; /* Auto width for buttons */
+  }
+
+  .profile-dropdown {
+    left: auto; /* Reset left */
+    right: 0; /* Align to right */
+    transform: none; /* Remove transform */
+    width: auto; /* Auto width */
+    min-width: 150px;
+  }
+}
+
+/* Large screens (desktops) */
+@media (min-width: 769px) {
+  .navbar {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    height: 7rem; /* Original height for large screens */
+    gap: 0; /* No gap, rely on flex distribution */
+    flex-wrap: nowrap; /* Prevent wrapping on large screens */
+  }
+  .navbar-left,
+  .navbar-center,
+  .navbar-right {
+    margin-bottom: 0; /* Ensure no bottom margin on large screens */
+    flex-wrap: nowrap; /* Prevent wrapping within sections */
+  }
+  .navbar-left {
+    margin-right: 1rem; /* Space between left and center */
+  }
+  .navbar-center {
+    flex: 1;
+    justify-content: center;
+    margin: 0 1rem; /* Space around center */
+  }
+  .navbar-right {
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-left: 1rem; /* Space between center and right */
+  }
+  .logo-link img {
+    width: 6rem;
+  }
+  .user-name {
+    display: inline;
+  }
+  .nav-link {
+    font-size: 1rem;
+  }
+  .signup,
+  .login {
+    width: auto;
+  }
+  .profile-dropdown {
+    left: auto;
+    right: 0;
+    transform: none;
+    width: auto;
+    min-width: 150px;
   }
 }
