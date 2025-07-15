@@ -571,7 +571,7 @@ export default function CafeteriaMenu() {
 
   return (
     <Box sx={{ maxWidth: "1200px", mx: "auto", mt: 1, p: 2 }}>
-      {/* Cart Icon - Fixed position */}
+      
       {cartItemCount > 0 && (
         <Box sx={{ position: "fixed", top: 20, right: 20, zIndex: 1000 }}>
           <IconButton
@@ -580,8 +580,8 @@ export default function CafeteriaMenu() {
               backgroundColor: "#fc9106",
               color: "white",
               "&:hover": { backgroundColor: "#e8820a" },
-              width: { xs: 50, sm: 60 }, // Responsive size
-              height: { xs: 50, sm: 60 }, // Responsive size
+              width: { xs: 50, sm: 60 },
+              height: { xs: 50, sm: 60 },
             }}
           >
             <Badge badgeContent={cartItemCount} color="error">
@@ -594,7 +594,7 @@ export default function CafeteriaMenu() {
         {selectedVendor && (
           <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
             {" "}
-            {/* Centered vendor logo */}
+
             <img
               src={vendors.find((v) => v.id === selectedVendor)?.image_url || "/placeholder.svg"}
               alt="Vendor Logo"
@@ -612,7 +612,7 @@ export default function CafeteriaMenu() {
           sx={{ backgroundColor: "white", width: { xs: "100%", sm: "30rem" }, maxWidth: "30rem", mt: 3, mb: 5 }}
         >
           {" "}
-          {/* Responsive width */}
+      
           <InputLabel>Select Vendor</InputLabel>
           <Select value={selectedVendor} label="Select Vendor" onChange={(e) => setSelectedVendor(e.target.value)}>
             {vendors.map((vendor) => (
@@ -643,8 +643,8 @@ export default function CafeteriaMenu() {
                 onClick={() => toggleCategory(category)}
                 sx={{
                   fontWeight: 800,
-                  margin: { xs: "0rem 0rem 2rem 0rem", md: "0rem 0rem 2rem 13rem" }, // Responsive margin
-                  textAlign: { xs: "center", md: "left" }, // Responsive text alignment
+                  margin: { xs: "0rem 0rem 2rem 0rem", md: "0rem 0rem 2rem 13rem" },
+                  textAlign: { xs: "center", md: "left" },
                   cursor: "pointer",
                   userSelect: "none",
                   "&:hover": { color: "#fc9106" },
@@ -675,9 +675,9 @@ export default function CafeteriaMenu() {
                           sx={{
                             backgroundColor: "rgb(255, 255, 255)",
                             display: "flex",
-                            flexDirection: { xs: "column", sm: "row" }, // Responsive flex direction
+                            flexDirection: { xs: "column", sm: "row" },
                             justifyContent: "space-between",
-                            alignItems: { xs: "center", sm: "flex-start" }, // Responsive alignment
+                            alignItems: { xs: "center", sm: "flex-start" },
                             mb: 2,
                             p: 2,
                             width: "100%",
@@ -688,11 +688,11 @@ export default function CafeteriaMenu() {
                           {/* Left Side */}
                           <Box sx={{ flex: 1, textAlign: { xs: "center", sm: "left" }, mb: { xs: 2, sm: 0 } }}>
                             {" "}
-                            {/* Responsive text alignment and margin */}
+                            
                             <img
                               src={item.veg ? "/images/veg-icon.png" : "/images/non-veg-icon.png"}
                               alt={item.veg ? "Veg" : "Non-Veg"}
-                              style={{ width: 18, marginBottom: 8 }} // Added margin-bottom for spacing
+                              style={{ width: 18, marginBottom: 8 }}
                             />
                             <Typography variant="h6" fontWeight="bold" gutterBottom>
                               {item.item_name}
@@ -707,13 +707,13 @@ export default function CafeteriaMenu() {
                               <b>₹{item.rate}</b>
                             </Typography>
                           </Box>
-                          {/* Right Side */}
+                          
                           <Box
                             sx={{
                               display: "flex",
                               flexDirection: "column",
                               alignItems: "center",
-                              ml: { xs: 0, sm: 2 }, // Responsive margin-left
+                              ml: { xs: 0, sm: 2 },
                             }}
                           >
                             <img
@@ -833,7 +833,7 @@ export default function CafeteriaMenu() {
           </Typography>
         </Box>
       )}
-      {/* Food Item Modal - Completely isolated */}
+      
       <FoodItemModal
         selectedItem={selectedItem}
         modalOpen={modalOpen}
@@ -842,9 +842,9 @@ export default function CafeteriaMenu() {
         onAdd={handleModalAdd}
         onRemove={handleModalRemove}
       />
-      {/* Cart Drawer */}
+
       {CartDrawer}
-      {/* Snackbar for success notifications */}
+
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={3000}

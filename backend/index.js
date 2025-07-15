@@ -1,23 +1,25 @@
-const express = require('express');
-const cors = require('cors');
-const db = require('./db');
-const cafeteriaRoutes = require('./routes/cafeterias');
-const vendorRoutes = require('./routes/vendors');
-const signupRoutes = require('./routes/signup');
-const loginRoutes = require('./routes/login');
+const express = require("express")
+const cors = require("cors")
+const db = require("./db")
+const cafeteriaRoutes = require("./routes/cafeterias")
+const vendorRoutes = require("./routes/vendors")
+const signupRoutes = require("./routes/signup")
+const loginRoutes = require("./routes/login")
+const menuRoutes = require("./routes/menu") // Added line
 
-const app = express();
-const PORT = 5000;
+const app = express()
+const PORT = 5000
 
-app.use(cors());
-app.use(express.json());
+app.use(cors())
+app.use(express.json())
 
 // Route setup
-app.use('/api/cafeterias', cafeteriaRoutes);
-app.use('/api/vendors', vendorRoutes);
-app.use('/api/users', signupRoutes);
-app.use('/api/users', loginRoutes);
+app.use("/api/cafeterias", cafeteriaRoutes)
+app.use("/api/vendors", vendorRoutes)
+app.use("/api/users", signupRoutes)
+app.use("/api/users", loginRoutes)
+app.use("/api", menuRoutes) // Added line
 
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
+  console.log(`Server running at http://localhost:${PORT}`)
+})

@@ -1,7 +1,9 @@
-import "./SearchBox.css";
-import { FaSearch } from "react-icons/fa";
+"use client"
 
-export default function SearchBox() {
+import "./SearchBox.css"
+import { FaSearch } from "react-icons/fa"
+
+export default function SearchBox({ value, onSearchChange }) {
   return (
     <div className="search-container">
       <FaSearch className="search-icon" />
@@ -9,7 +11,9 @@ export default function SearchBox() {
         type="text"
         placeholder="Search food items or vendors"
         className="searchbox"
+        value={value}
+        onChange={(e) => onSearchChange(e.target.value)}
       />
     </div>
-  );
+  )
 }
