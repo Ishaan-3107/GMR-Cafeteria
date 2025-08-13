@@ -1,5 +1,3 @@
-"use client"
-
 import { Badge, Box, IconButton } from "@mui/material"
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
 

@@ -1,5 +1,3 @@
-"use client"
-
 import { createContext, useState, useContext, useCallback } from "react"
 
 const SearchContext = createContext(null)

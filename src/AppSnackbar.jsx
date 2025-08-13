@@ -1,5 +1,3 @@
-"use client"
-
 import { Alert, Snackbar } from "@mui/material"
 
 export default function AppSnackbar({ open, itemName, onClose }) {

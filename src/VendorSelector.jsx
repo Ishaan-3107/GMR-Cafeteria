@@ -1,5 +1,3 @@
-"use client"
-
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material"
 
 export default function VendorSelector({ vendors, selectedVendor, onVendorChange }) {

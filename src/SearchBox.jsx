@@ -1,5 +1,3 @@
-"use client"
-
 import "./SearchBox.css"
 import { FaSearch } from "react-icons/fa"
 

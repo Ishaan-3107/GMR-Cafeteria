@@ -1,6 +1,3 @@
-"use client"
-
-// Updated Navbar.js with event listener approach
 import "./Navbar.css"
 import SearchBox from "./SearchBox"
 import Location from "./Location"

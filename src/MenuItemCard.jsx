@@ -1,5 +1,3 @@
-"use client"
-
 import { Box, Button, IconButton, Typography } from "@mui/material"
 import { motion } from "framer-motion"
 import AddIcon from "@mui/icons-material/Add"

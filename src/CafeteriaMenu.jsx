@@ -1,7 +1,5 @@
-"use client"
-
-import { useEffect, useState, useCallback, useMemo } from "react"
-import React from "react"
+import { useEffect, useState, useCallback, useMemo } from "react";
+import React from "react";
 import {
   Box,
   Typography,
@@ -19,235 +17,276 @@ import {
   Divider,
   Dialog,
   DialogContent,
-} from "@mui/material"
-import { motion } from "framer-motion"
-import { useParams } from "react-router-dom"
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
-import AddIcon from "@mui/icons-material/Add"
-import RemoveIcon from "@mui/icons-material/Remove"
-import DeleteIcon from "@mui/icons-material/Delete"
-import CloseIcon from "@mui/icons-material/Close"
+} from "@mui/material";
+import { motion } from "framer-motion";
+import { useParams } from "react-router-dom";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CloseIcon from "@mui/icons-material/Close";
 
 // Completely isolated modal component
-const FoodItemModal = React.memo(({ selectedItem, modalOpen, currentQuantity, onClose, onAdd, onRemove }) => {
-  if (!selectedItem || !modalOpen) return null
-  return (
-    <Dialog
-      open={modalOpen}
-      onClose={onClose}
-      maxWidth="sm"
-      fullWidth
-      sx={{
-        "& .MuiDialog-paper": {
-          borderRadius: 3,
-          overflow: "hidden",
-        },
-      }}
-    >
-      <DialogContent sx={{ p: 0, position: "relative" }}>
-        {/* Close Button */}
-        <IconButton
-          onClick={onClose}
-          sx={{
-            position: "absolute",
-            top: 16,
-            right: 16,
-            backgroundColor: "rgba(255, 255, 255, 0.9)",
-            zIndex: 10,
-            "&:hover": {
-              backgroundColor: "rgba(255, 255, 255, 1)",
-            },
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-        {/* Food Image */}
-        <Box
-          sx={{
-            width: "100%",
-            height: { xs: 200, sm: 300 }, // Responsive height
-            backgroundImage: `url(${
-              selectedItem.image_url || "/images/menu/default-food-image.jpg" || "/placeholder.svg"
-            })`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            position: "relative",
-          }}
-        />
-        {/* Content */}
-        <Box sx={{ p: 3 }}>
-          {/* Veg/Non-Veg Indicator */}
-          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-            <img
-              src={selectedItem.veg ? "/images/veg-icon.png" : "/images/non-veg-icon.png"}
-              alt={selectedItem.veg ? "Veg" : "Non-Veg"}
-              style={{ width: 26, height: 20, marginRight: 8 }}
-            />
-            <Typography variant="body2" color="text.secondary">
-              {selectedItem.veg ? "Vegetarian" : "Non-Vegetarian"}
+const FoodItemModal = React.memo(
+  ({ selectedItem, modalOpen, currentQuantity, onClose, onAdd, onRemove }) => {
+    if (!selectedItem || !modalOpen) return null;
+    return (
+      <Dialog
+        open={modalOpen}
+        onClose={onClose}
+        maxWidth="sm"
+        fullWidth
+        sx={{
+          "& .MuiDialog-paper": {
+            borderRadius: 3,
+            overflow: "hidden",
+          },
+        }}
+      >
+        <DialogContent sx={{ p: 0, position: "relative" }}>
+          {/* Close Button */}
+          <IconButton
+            onClick={onClose}
+            sx={{
+              position: "absolute",
+              top: 16,
+              right: 16,
+              backgroundColor: "rgba(255, 255, 255, 0.9)",
+              zIndex: 10,
+              "&:hover": {
+                backgroundColor: "rgba(255, 255, 255, 1)",
+              },
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+          {/* Food Image */}
+          <Box
+            sx={{
+              width: "100%",
+              height: { xs: 200, sm: 300 }, // Responsive height
+              backgroundImage: `url(${
+                selectedItem.image_url ||
+                "/images/menu/default-food-image.jpg" ||
+                "/placeholder.svg"
+              })`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              position: "relative",
+            }}
+          />
+          {/* Content */}
+          <Box sx={{ p: 3 }}>
+            {/* Veg/Non-Veg Indicator */}
+            <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+              <img
+                src={
+                  selectedItem.veg
+                    ? "/images/veg-icon.png"
+                    : "/images/non-veg-icon.png"
+                }
+                alt={selectedItem.veg ? "Veg" : "Non-Veg"}
+                style={{ width: 26, height: 20, marginRight: 8 }}
+              />
+              <Typography variant="body2" color="text.secondary">
+                {selectedItem.veg ? "Vegetarian" : "Non-Vegetarian"}
+              </Typography>
+            </Box>
+            {/* Item Name */}
+            <Typography variant="h5" fontWeight="bold" gutterBottom>
+              {selectedItem.item_name}
             </Typography>
-          </Box>
-          {/* Item Name */}
-          <Typography variant="h5" fontWeight="bold" gutterBottom>
-            {selectedItem.item_name}
-          </Typography>
-          {/* Price */}
-          <Typography variant="h6" color="#fc9106" fontWeight="bold" sx={{ mb: 2 }}>
-            ₹{selectedItem.rate}
-          </Typography>
-          {/* Description */}
-          <Typography variant="body1" color="text.secondary" sx={{ mb: 2, lineHeight: 1.6 }}>
-            {selectedItem.description}
-          </Typography>
-          {/* Calories */}
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-            Calories: {selectedItem.calories} kcal
-          </Typography>
-          {/* Add to Cart Section */}
-          <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 2 }}>
-            {currentQuantity === 0 ? (
-              <Button
-                onClick={() => onAdd(selectedItem)}
-                variant="contained"
-                sx={{
-                  backgroundColor: "#fc9106",
-                  color: "white",
-                  px: 4,
-                  py: 1.5,
-                  fontSize: { xs: "0.9rem", sm: "1.1rem" }, // Responsive font size
-                  fontWeight: 600,
-                  borderRadius: 2,
-                  "&:hover": {
-                    backgroundColor: "#e8820a",
-                  },
-                }}
-              >
-                ADD
-              </Button>
-            ) : (
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  backgroundColor: "#fc9106",
-                  borderRadius: 2,
-                  overflow: "hidden",
-                }}
-              >
-                <IconButton
-                  onClick={() => onRemove(selectedItem.id)}
-                  size="medium"
-                  sx={{
-                    color: "white",
-                    "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
-                  }}
-                >
-                  <RemoveIcon />
-                </IconButton>
-                <Typography
-                  variant="h6"
-                  sx={{
-                    px: { xs: 2, sm: 3 }, // Responsive padding
-                    py: 1,
-                    color: "white",
-                    fontWeight: 600,
-                    minWidth: { xs: 30, sm: 40 }, // Responsive min-width
-                    textAlign: "center",
-                  }}
-                >
-                  {currentQuantity}
-                </Typography>
-                <IconButton
+            {/* Price */}
+            <Typography
+              variant="h6"
+              color="#fc9106"
+              fontWeight="bold"
+              sx={{ mb: 2 }}
+            >
+              ₹{selectedItem.rate}
+            </Typography>
+            {/* Description */}
+            <Typography
+              variant="body1"
+              color="text.secondary"
+              sx={{ mb: 2, lineHeight: 1.6 }}
+            >
+              {selectedItem.description}
+            </Typography>
+            {/* Calories */}
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+              Calories: {selectedItem.calories} kcal
+            </Typography>
+            {/* Add to Cart Section */}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 2,
+              }}
+            >
+              {currentQuantity === 0 ? (
+                <Button
                   onClick={() => onAdd(selectedItem)}
-                  size="medium"
+                  variant="contained"
                   sx={{
+                    backgroundColor: "#fc9106",
                     color: "white",
-                    "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
+                    px: 4,
+                    py: 1.5,
+                    fontSize: { xs: "0.9rem", sm: "1.1rem" }, // Responsive font size
+                    fontWeight: 600,
+                    borderRadius: 2,
+                    "&:hover": {
+                      backgroundColor: "#e8820a",
+                    },
                   }}
                 >
-                  <AddIcon />
-                </IconButton>
-              </Box>
-            )}
+                  ADD
+                </Button>
+              ) : (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    backgroundColor: "#fc9106",
+                    borderRadius: 2,
+                    overflow: "hidden",
+                  }}
+                >
+                  <IconButton
+                    onClick={() => onRemove(selectedItem.id)}
+                    size="medium"
+                    sx={{
+                      color: "white",
+                      "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
+                    }}
+                  >
+                    <RemoveIcon />
+                  </IconButton>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      px: { xs: 2, sm: 3 }, // Responsive padding
+                      py: 1,
+                      color: "white",
+                      fontWeight: 600,
+                      minWidth: { xs: 30, sm: 40 }, // Responsive min-width
+                      textAlign: "center",
+                    }}
+                  >
+                    {currentQuantity}
+                  </Typography>
+                  <IconButton
+                    onClick={() => onAdd(selectedItem)}
+                    size="medium"
+                    sx={{
+                      color: "white",
+                      "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
+                    }}
+                  >
+                    <AddIcon />
+                  </IconButton>
+                </Box>
+              )}
+            </Box>
           </Box>
-        </Box>
-      </DialogContent>
-    </Dialog>
-  )
-})
+        </DialogContent>
+      </Dialog>
+    );
+  }
+);
 
 export default function CafeteriaMenu() {
-  const { id } = useParams()
-  const [vendors, setVendors] = useState([])
-  const [selectedVendor, setSelectedVendor] = useState("")
-  const [allMenuItems, setAllMenuItems] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [snackbarOpen, setSnackbarOpen] = useState(false)
-  const [addedItemName, setAddedItemName] = useState("")
-  const [expandedCategories, setExpandedCategories] = useState(null)
+  const { id } = useParams();
+  const [vendors, setVendors] = useState([]);
+  const [selectedVendor, setSelectedVendor] = useState("");
+  const [allMenuItems, setAllMenuItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [addedItemName, setAddedItemName] = useState("");
+  const [expandedCategories, setExpandedCategories] = useState(null);
 
   // Cart state
-  const [cart, setCart] = useState({})
-  const [cartDrawerOpen, setCartDrawerOpen] = useState(false)
+  const [cart, setCart] = useState({});
+  const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
 
   // Modal state for food item details
-  const [modalOpen, setModalOpen] = useState(false)
-  const [selectedItem, setSelectedItem] = useState(null)
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  useEffect(() => {
+  const savedCart = localStorage.getItem("cafeteria_cart");
+  if (savedCart) {
+    try {
+      setCart(JSON.parse(savedCart));
+    } catch (e) {
+      console.error("Failed to parse saved cart:", e);
+    }
+  }
+}, []);
 
   // Memoized cart calculations to prevent unnecessary re-renders
   const cartItemCount = useMemo(() => {
-    return Object.values(cart).reduce((total, item) => total + item.quantity, 0)
-  }, [cart])
+    return Object.values(cart).reduce(
+      (total, item) => total + item.quantity,
+      0
+    );
+  }, [cart]);
 
   const cartTotal = useMemo(() => {
-    return Object.values(cart).reduce((total, item) => total + item.rate * item.quantity, 0)
-  }, [cart])
+    return Object.values(cart).reduce(
+      (total, item) => total + item.rate * item.quantity,
+      0
+    );
+  }, [cart]);
 
   // Get current quantity for modal - memoized to prevent unnecessary recalculations
   const modalItemQuantity = useMemo(() => {
-    return selectedItem ? cart[selectedItem.id]?.quantity || 0 : 0
-  }, [cart, selectedItem])
+    return selectedItem ? cart[selectedItem.id]?.quantity || 0 : 0;
+  }, [cart, selectedItem]);
 
   // Handle food image click
   const handleImageClick = useCallback((item) => {
-    setSelectedItem(item)
-    setModalOpen(true)
-  }, [])
+    setSelectedItem(item);
+    setModalOpen(true);
+  }, []);
 
   // Handle modal close
   const handleModalClose = useCallback(() => {
-    setModalOpen(false)
-    setSelectedItem(null)
-  }, [])
+    setModalOpen(false);
+    setSelectedItem(null);
+  }, []);
 
   // Stable cart functions that don't change reference
   const addToCart = useCallback(
     (item, showSnackbar = true) => {
       setCart((prevCart) => {
-        const currentQuantity = prevCart[item.id]?.quantity || 0
+        const currentQuantity = prevCart[item.id]?.quantity || 0;
         return {
           ...prevCart,
           [item.id]: {
             ...item,
             quantity: currentQuantity + 1,
           },
-        }
-      })
+        };
+      });
       // Only show snackbar for first add from main menu, not from modal
       if (showSnackbar && !cart[item.id]) {
-        setAddedItemName(item.item_name)
-        setSnackbarOpen(true)
+        setAddedItemName(item.item_name);
+        setSnackbarOpen(true);
       }
     },
-    [cart],
-  )
+    [cart]
+  );
 
   const removeFromCart = useCallback((itemId) => {
     setCart((prevCart) => {
-      const currentQuantity = prevCart[itemId]?.quantity || 0
+      const currentQuantity = prevCart[itemId]?.quantity || 0;
       if (currentQuantity <= 1) {
-        const { [itemId]: removed, ...rest } = prevCart
-        return rest
+        const { [itemId]: removed, ...rest } = prevCart;
+        return rest;
       } else {
         return {
           ...prevCart,
@@ -255,102 +294,108 @@ export default function CafeteriaMenu() {
             ...prevCart[itemId],
             quantity: currentQuantity - 1,
           },
-        }
+        };
       }
-    })
-  }, [])
+    });
+  }, []);
 
   const deleteFromCart = useCallback((itemId) => {
     setCart((prevCart) => {
-      const { [itemId]: removed, ...rest } = prevCart
-      return rest
-    })
-  }, [])
+      const { [itemId]: removed, ...rest } = prevCart;
+      return rest;
+    });
+  }, []);
 
   const getItemQuantityInCart = useCallback(
     (itemId) => {
-      return cart[itemId]?.quantity || 0
+      return cart[itemId]?.quantity || 0;
     },
-    [cart],
-  )
+    [cart]
+  );
 
   // Modal-specific handlers that don't show snackbar
   const handleModalAdd = useCallback(
     (item) => {
-      addToCart(item, false)
+      addToCart(item, false);
     },
-    [addToCart],
-  )
+    [addToCart]
+  );
 
   const handleModalRemove = useCallback(
     (itemId) => {
-      removeFromCart(itemId)
+      removeFromCart(itemId);
     },
-    [removeFromCart],
-  )
+    [removeFromCart]
+  );
 
   const handleSnackbarClose = useCallback((_, reason) => {
-    if (reason === "clickaway") return
-    setSnackbarOpen(false)
-  }, [])
+    if (reason === "clickaway") return;
+    setSnackbarOpen(false);
+  }, []);
 
   const toggleCategory = useCallback((category) => {
     setExpandedCategories((prev) => ({
       ...prev,
       [category]: !prev[category],
-    }))
-  }, [])
+    }));
+  }, []);
 
   useEffect(() => {
     if (selectedVendor) {
-      localStorage.setItem("selectedVendor", selectedVendor)
+      localStorage.setItem("selectedVendor", selectedVendor);
     }
-  }, [selectedVendor])
+  }, [selectedVendor]);
 
   useEffect(() => {
     const fetchVendors = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/cafeterias/${id}/vendors`)
-        const data = await res.json()
-        setVendors(data)
-        const savedVendor = localStorage.getItem("selectedVendor")
+        const res = await fetch(
+          `http://localhost:5000/api/cafeterias/${id}/vendors`
+        );
+        const data = await res.json();
+        setVendors(data);
+        const savedVendor = localStorage.getItem("selectedVendor");
         if (savedVendor && data.some((v) => v.id.toString() === savedVendor)) {
-          setSelectedVendor(Number.parseInt(savedVendor))
+          setSelectedVendor(Number.parseInt(savedVendor));
         } else if (data.length > 0) {
-          setSelectedVendor(data[0].id)
+          setSelectedVendor(data[0].id);
         }
       } catch (err) {
-        console.error("Error fetching vendors:", err)
+        console.error("Error fetching vendors:", err);
       }
-    }
-    fetchVendors()
-  }, [id])
+    };
+    fetchVendors();
+  }, [id]);
 
   useEffect(() => {
     const fetchMenu = async () => {
-      setLoading(true)
+      setLoading(true);
       try {
-        const res = await fetch(`http://localhost:5000/api/cafeterias/${id}/menu`)
-        const data = await res.json()
-        setAllMenuItems(data)
-        const initialExpanded = {}
+        const res = await fetch(
+          `http://localhost:5000/api/cafeterias/${id}/menu`
+        );
+        const data = await res.json();
+        setAllMenuItems(data);
+        const initialExpanded = {};
         data.forEach((item) => {
-          const category = item.category || "Uncategorized"
-          initialExpanded[category] = true
-        })
-        setExpandedCategories(initialExpanded)
+          const category = item.category || "Uncategorized";
+          initialExpanded[category] = true;
+        });
+        setExpandedCategories(initialExpanded);
       } catch (err) {
-        console.error("Error fetching menu:", err)
+        console.error("Error fetching menu:", err);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
-    fetchMenu()
-  }, [id])
+    };
+    fetchMenu();
+  }, [id]);
 
   const menuItems = useMemo(() => {
-    return selectedVendor ? allMenuItems.filter((item) => item.vendor_id === selectedVendor) : []
-  }, [selectedVendor, allMenuItems])
+    return selectedVendor
+      ? allMenuItems.filter((item) => item.vendor_id === selectedVendor)
+      : [];
+  }, [selectedVendor, allMenuItems]);
 
   // Memoized CartDrawer to prevent unnecessary re-renders
   const CartDrawer = useMemo(
@@ -363,7 +408,8 @@ export default function CafeteriaMenu() {
           "& .MuiDrawer-paper": {
             width: { xs: "100%", sm: 400 },
             padding: 2,
-            transition: "transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important",
+            transition:
+              "transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important",
           },
           "& .MuiBackdrop-root": {
             transition: "opacity 0.2s ease-in-out !important",
@@ -381,7 +427,14 @@ export default function CafeteriaMenu() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
         >
-          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              mb: 2,
+            }}
+          >
             <Typography variant="h5" fontWeight="bold">
               Your Cart
             </Typography>
@@ -400,7 +453,11 @@ export default function CafeteriaMenu() {
             </IconButton>
           </Box>
         </motion.div>
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.2 }}>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, delay: 0.2 }}
+        >
           <Divider sx={{ mb: 2 }} />
         </motion.div>
         {Object.keys(cart).length === 0 ? (
@@ -409,7 +466,12 @@ export default function CafeteriaMenu() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4, delay: 0.3 }}
           >
-            <Typography variant="body1" color="text.secondary" textAlign="center" sx={{ mt: 4 }}>
+            <Typography
+              variant="body1"
+              color="text.secondary"
+              textAlign="center"
+              sx={{ mt: 4 }}
+            >
               Your cart is empty
             </Typography>
           </motion.div>
@@ -443,7 +505,13 @@ export default function CafeteriaMenu() {
                     },
                   }}
                 >
-                  <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "flex-start",
+                    }}
+                  >
                     <Box sx={{ flex: 1 }}>
                       <Typography variant="h6" fontWeight="bold">
                         {item.item_name}
@@ -451,7 +519,11 @@ export default function CafeteriaMenu() {
                       <Typography variant="body2" color="text.secondary">
                         ₹{item.rate} each
                       </Typography>
-                      <Typography variant="body1" fontWeight="bold" sx={{ mt: 1 }}>
+                      <Typography
+                        variant="body1"
+                        fontWeight="bold"
+                        sx={{ mt: 1 }}
+                      >
                         Total: ₹{item.rate * item.quantity}
                       </Typography>
                     </Box>
@@ -470,7 +542,14 @@ export default function CafeteriaMenu() {
                       <DeleteIcon />
                     </IconButton>
                   </Box>
-                  <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mt: 2 }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      mt: 2,
+                    }}
+                  >
                     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                       <IconButton
                         onClick={() => removeFromCart(item.id)}
@@ -494,7 +573,10 @@ export default function CafeteriaMenu() {
                         animate={{ scale: 1 }}
                         transition={{ duration: 0.2 }}
                       >
-                        <Typography variant="h6" sx={{ mx: 2, minWidth: 30, textAlign: "center" }}>
+                        <Typography
+                          variant="h6"
+                          sx={{ mx: 2, minWidth: 30, textAlign: "center" }}
+                        >
                           {item.quantity}
                         </Typography>
                       </motion.div>
@@ -531,7 +613,14 @@ export default function CafeteriaMenu() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.6 }}
             >
-              <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  mb: 2,
+                }}
+              >
                 <Typography variant="h5" fontWeight="bold">
                   Total: ₹{cartTotal}
                 </Typography>
@@ -566,12 +655,15 @@ export default function CafeteriaMenu() {
         )}
       </Drawer>
     ),
-    [cartDrawerOpen, cart, cartTotal, addToCart, removeFromCart, deleteFromCart],
-  )
+    [cartDrawerOpen, cart, cartTotal, addToCart, removeFromCart, deleteFromCart]
+  );
+
+  useEffect(() => {
+    localStorage.setItem("cafeteria_cart", JSON.stringify(cart));
+  }, [cart]);
 
   return (
     <Box sx={{ maxWidth: "1200px", mx: "auto", mt: 1, p: 2 }}>
-      
       {cartItemCount > 0 && (
         <Box sx={{ position: "fixed", top: 20, right: 20, zIndex: 1000 }}>
           <IconButton
@@ -594,9 +686,11 @@ export default function CafeteriaMenu() {
         {selectedVendor && (
           <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
             {" "}
-
             <img
-              src={vendors.find((v) => v.id === selectedVendor)?.image_url || "/placeholder.svg"}
+              src={
+                vendors.find((v) => v.id === selectedVendor)?.image_url ||
+                "/placeholder.svg"
+              }
               alt="Vendor Logo"
               style={{
                 width: "150px",
@@ -609,12 +703,21 @@ export default function CafeteriaMenu() {
           </Box>
         )}
         <FormControl
-          sx={{ backgroundColor: "white", width: { xs: "100%", sm: "30rem" }, maxWidth: "30rem", mt: 3, mb: 5 }}
+          sx={{
+            backgroundColor: "white",
+            width: { xs: "100%", sm: "30rem" },
+            maxWidth: "30rem",
+            mt: 3,
+            mb: 5,
+          }}
         >
           {" "}
-      
           <InputLabel>Select Vendor</InputLabel>
-          <Select value={selectedVendor} label="Select Vendor" onChange={(e) => setSelectedVendor(e.target.value)}>
+          <Select
+            value={selectedVendor}
+            label="Select Vendor"
+            onChange={(e) => setSelectedVendor(e.target.value)}
+          >
             {vendors.map((vendor) => (
               <MenuItem key={vendor.id} value={vendor.id}>
                 {vendor.name}
@@ -624,18 +727,25 @@ export default function CafeteriaMenu() {
         </FormControl>
       </Box>
       {loading ? (
-        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "200px" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "200px",
+          }}
+        >
           <CircularProgress />
         </Box>
       ) : menuItems.length > 0 ? (
         <Box sx={{ width: "100%" }}>
           {Object.entries(
             menuItems.reduce((acc, item) => {
-              const category = item.category || "Uncategorized"
-              if (!acc[category]) acc[category] = []
-              acc[category].push(item)
-              return acc
-            }, {}),
+              const category = item.category || "Uncategorized";
+              if (!acc[category]) acc[category] = [];
+              acc[category].push(item);
+              return acc;
+            }, {})
           ).map(([category, items]) => (
             <Box key={category} sx={{ mb: 4 }}>
               <Typography
@@ -643,14 +753,18 @@ export default function CafeteriaMenu() {
                 onClick={() => toggleCategory(category)}
                 sx={{
                   fontWeight: 800,
-                  margin: { xs: "0rem 0rem 2rem 0rem", md: "0rem 0rem 2rem 13rem" },
+                  margin: {
+                    xs: "0rem 0rem 2rem 0rem",
+                    md: "0rem 0rem 2rem 13rem",
+                  },
                   textAlign: { xs: "center", md: "left" },
                   cursor: "pointer",
                   userSelect: "none",
                   "&:hover": { color: "#fc9106" },
                 }}
               >
-                {expandedCategories?.[category] ? "▼" : "▶"} {category} ({items.length})
+                {expandedCategories?.[category] ? "▼" : "▶"} {category} (
+                {items.length})
               </Typography>
               {expandedCategories?.[category] && (
                 <Box
@@ -662,7 +776,7 @@ export default function CafeteriaMenu() {
                   }}
                 >
                   {items.map((item, index) => {
-                    const quantityInCart = getItemQuantityInCart(item.id)
+                    const quantityInCart = getItemQuantityInCart(item.id);
                     return (
                       <motion.div
                         key={item.id}
@@ -686,18 +800,35 @@ export default function CafeteriaMenu() {
                           }}
                         >
                           {/* Left Side */}
-                          <Box sx={{ flex: 1, textAlign: { xs: "center", sm: "left" }, mb: { xs: 2, sm: 0 } }}>
+                          <Box
+                            sx={{
+                              flex: 1,
+                              textAlign: { xs: "center", sm: "left" },
+                              mb: { xs: 2, sm: 0 },
+                            }}
+                          >
                             {" "}
-                            
                             <img
-                              src={item.veg ? "/images/veg-icon.png" : "/images/non-veg-icon.png"}
+                              src={
+                                item.veg
+                                  ? "/images/veg-icon.png"
+                                  : "/images/non-veg-icon.png"
+                              }
                               alt={item.veg ? "Veg" : "Non-Veg"}
                               style={{ width: 18, marginBottom: 8 }}
                             />
-                            <Typography variant="h6" fontWeight="bold" gutterBottom>
+                            <Typography
+                              variant="h6"
+                              fontWeight="bold"
+                              gutterBottom
+                            >
                               {item.item_name}
                             </Typography>
-                            <Typography variant="body2" color="text.secondary" gutterBottom>
+                            <Typography
+                              variant="body2"
+                              color="text.secondary"
+                              gutterBottom
+                            >
                               {item.description}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
@@ -707,7 +838,7 @@ export default function CafeteriaMenu() {
                               <b>₹{item.rate}</b>
                             </Typography>
                           </Box>
-                          
+
                           <Box
                             sx={{
                               display: "flex",
@@ -717,7 +848,11 @@ export default function CafeteriaMenu() {
                             }}
                           >
                             <img
-                              src={item.image_url || "/images/menu/default-food-image.jpg" || "/placeholder.svg"}
+                              src={
+                                item.image_url ||
+                                "/images/menu/default-food-image.jpg" ||
+                                "/placeholder.svg"
+                              }
                               alt="Food"
                               onClick={() => handleImageClick(item)}
                               style={{
@@ -729,10 +864,10 @@ export default function CafeteriaMenu() {
                                 transition: "transform 0.2s ease-in-out",
                               }}
                               onMouseEnter={(e) => {
-                                e.target.style.transform = "scale(1.05)"
+                                e.target.style.transform = "scale(1.05)";
                               }}
                               onMouseLeave={(e) => {
-                                e.target.style.transform = "scale(1)"
+                                e.target.style.transform = "scale(1)";
                               }}
                             />
                             {/* Dynamic Button */}
@@ -780,7 +915,10 @@ export default function CafeteriaMenu() {
                                     color: "#fc9106",
                                     borderRadius: 8,
                                     px: 1,
-                                    "&:hover": { backgroundColor: "#fc9106", color: "white" },
+                                    "&:hover": {
+                                      backgroundColor: "#fc9106",
+                                      color: "white",
+                                    },
                                   }}
                                 >
                                   <RemoveIcon fontSize="small" />
@@ -804,7 +942,10 @@ export default function CafeteriaMenu() {
                                     color: "#fc9106",
                                     borderRadius: 8,
                                     px: 1,
-                                    "&:hover": { backgroundColor: "#fc9106", color: "white" },
+                                    "&:hover": {
+                                      backgroundColor: "#fc9106",
+                                      color: "white",
+                                    },
                                   }}
                                 >
                                   <AddIcon fontSize="small" />
@@ -814,7 +955,7 @@ export default function CafeteriaMenu() {
                           </Box>
                         </Box>
                       </motion.div>
-                    )
+                    );
                   })}
                 </Box>
               )}
@@ -833,7 +974,7 @@ export default function CafeteriaMenu() {
           </Typography>
         </Box>
       )}
-      
+
       <FoodItemModal
         selectedItem={selectedItem}
         modalOpen={modalOpen}
@@ -851,10 +992,14 @@ export default function CafeteriaMenu() {
         onClose={handleSnackbarClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
-        <Alert onClose={handleSnackbarClose} severity="success" sx={{ width: "100%" }}>
+        <Alert
+          onClose={handleSnackbarClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
           {addedItemName} added to cart!
         </Alert>
       </Snackbar>
     </Box>
-  )
+  );
 }
